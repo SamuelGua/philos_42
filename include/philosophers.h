@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
+/*   By: meca_971 <meca_971@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/02/21 02:27:32 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/03 18:54:38 by meca_971         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ typedef struct philosophers
 {
 	pthread_t		thread;
 	int				id;
-	int				content;
 
 	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
 	unsigned int	time_to_think;
 	unsigned int	time_to_death;
 	unsigned int	minimun_of_meal;
 	unsigned int	*is_dead;
-
+	
+	void			*prev;
 	void			*next;
 }	t_philo;
 
@@ -42,7 +43,7 @@ typedef struct t_list
 }	t_data;
 
 // list init
-t_philo	*ft_lstnew(int content);
+t_philo	*ft_lstnew(int content, char **av);
 t_philo	*ft_lstlast(t_philo *lst);
 void	ft_lstadd_back(t_philo **lst, t_philo *new);
 
@@ -52,4 +53,16 @@ int		ft_isdigit(int c);
 long	ft_atol(const char *c);
 int		check_args(char *av, int j);
 
+//print stats
+void take_fork(int time, int philo);
+void ft_eating(int time, int philo);
+void ft_thinking(int time, int philo);
+void ft_sleeping(int time, int philo);
+void ft_death(int time, int philo);
+
+
+
+
+
+void printlist(t_philo *list, int num_of_philo);
 #endif
