@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meca_971 <meca_971@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 01:05:04 by scely             #+#    #+#             */
-/*   Updated: 2024/03/03 16:59:47 by meca_971         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:08:21 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*ft_lstnew(int content , char **av)
+t_philo	*ft_lstnew(int content)
 {
 	t_philo	*new;
 
 	new = malloc(sizeof(t_philo));
 	if (!new)
 		return (NULL);
-	new->time_to_eat = atoi(av[3]);
-	new->time_to_sleep = atoi(av[4]);
-	new->time_to_death = atoi(av[2]);
-	new->minimun_of_meal = 0;
 	new->id = content;
+	new->n_meals = 0;
+	new->last_meals = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -49,4 +47,16 @@ void	ft_lstadd_back(t_philo **lst, t_philo *new)
 	}
 	else
 		*lst = new;
+}
+
+void	ft_free(t_philo *lst, int num_philo)
+{
+	t_philo	*tmp;
+
+	while (num_philo--)
+	{
+		tmp = lst->next;
+		free(lst);
+		lst = tmp;
+	}
 }

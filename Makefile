@@ -13,7 +13,7 @@ OBJ_DIR			:= obj
 SRCS			= $(PHILOSOPHERS_PATH)
 
 PHILOSOPHERS_PATH	= $(PHILOSOPHERS:%=src/philo/%)
-PHILOSOPHERS		= parsing_utils.c philosophers.c philo_utils.c\
+PHILOSOPHERS		= parsing_utils.c philosophers.c philo_utils.c philo_stats.c\
 				
 OBJS			:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

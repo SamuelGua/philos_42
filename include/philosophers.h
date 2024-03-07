@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meca_971 <meca_971@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/03 18:54:38 by meca_971         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:17:15 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,41 @@
 # include <sys/time.h> // gettimeofday en fonction des systèmes
 # include <pthread.h>  // les fonctions liées aux threads
 
+struct t_list;
+
 typedef struct philosophers
 {
-	pthread_t		thread;
-	int				id;
+	int			id;
 
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	unsigned int	time_to_think;
-	unsigned int	time_to_death;
-	unsigned int	minimun_of_meal;
-	unsigned int	*is_dead;
-	
-	void			*prev;
-	void			*next;
+	pthread_t	thread;
+	pthread_mutex_t fork_id;
+
+	int			n_meals;
+	double		last_meals;
+
+	struct philosophers		*prev;
+	struct philosophers		*next;
+	struct t_list		*info;
 }	t_philo;
 
 typedef struct t_list
 {
-	pthread_mutex_t mutex;
-	t_philo **philos;
+	pthread_mutex_t print;
+	pthread_mutex_t meal;
+	
+	int			num_of_philo;
+	t_philo		*philos;
+
+	int			num_of_eat;	
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			time_to_death;
+	double		begin;		
+
 }	t_data;
 
 // list init
-t_philo	*ft_lstnew(int content, char **av);
+t_philo	*ft_lstnew(int content);
 t_philo	*ft_lstlast(t_philo *lst);
 void	ft_lstadd_back(t_philo **lst, t_philo *new);
 
@@ -54,15 +65,14 @@ long	ft_atol(const char *c);
 int		check_args(char *av, int j);
 
 //print stats
-void take_fork(int time, int philo);
-void ft_eating(int time, int philo);
-void ft_thinking(int time, int philo);
-void ft_sleeping(int time, int philo);
-void ft_death(int time, int philo);
+void	ft_message(t_philo *philo, char *str);
+void 	ft_eat(t_philo *philo);
+void	ft_sleep(t_philo *philo);
+void	ft_died(t_philo * philo);
 
-
-
-
+void ft_free(t_philo *lst, int num_philo);
+void	init_destroy_mutex(t_data *data);
+double get_time();
 
 void printlist(t_philo *list, int num_of_philo);
 #endif
