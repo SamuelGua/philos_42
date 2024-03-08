@@ -68,7 +68,7 @@ int		check_args(char *av, int j);
 void	ft_message(t_philo *philo, char *str);
 void 	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-void	ft_died(t_philo * philo);
+void	ft_died(t_philo * philo, int time_to);
 
 void ft_free(t_philo *lst, int num_philo);
 void	init_destroy_mutex(t_data *data);

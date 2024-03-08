@@ -26,45 +26,58 @@ void	ft_eat(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		ft_died(philo);
+		//ft_died(philo, philo->info->time_to_eat);
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "has taken fork");
-		ft_died(philo);
+		//ft_died(philo, philo->info->time_to_eat);
 		pthread_mutex_lock(&philo->prev->fork_id);
 		ft_message(philo, "has taken fork");
 	}
 	else
 	{
-		ft_died(philo);
+		//ft_died(philo, philo->info->time_to_eat);
 		pthread_mutex_lock(&philo->prev->fork_id);
 		ft_message(philo, "has taken fork");
-		ft_died(philo);
+		//ft_died(philo, philo->info->time_to_eat);
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "has taken fork");
 	}
-	ft_died(philo);
+	ft_died(philo, philo->info->time_to_eat);
+	philo->last_meals = get_time();
 	ft_message(philo, "is eating");
 	usleep(philo->info->time_to_eat);
-	philo->last_meals = get_time();
 	pthread_mutex_unlock(&philo->fork_id);
 	pthread_mutex_unlock(&philo->prev->fork_id);
 }
 
 void	ft_sleep(t_philo *philo)
 {
+	ft_died(philo, philo->info->time_to_sleep);
 	ft_message(philo, "is sleeping");
 	usleep(philo->info->time_to_sleep);
 	ft_message(philo, "is thinking");
 }
 
-void	ft_died(t_philo * philo)
+void	ft_died(t_philo *philo, int time_to)
 {
 	int				temps;
-
-	temps = get_time() - philo->last_meals;
-	if (temps <= philo->info->time_to_death / 1000)
+	
+	temps = philo->info->time_to_death / 1000 - ((get_time() - philo->last_meals) + time_to / 1000);
+	pthread_mutex_lock(&philo->info->print);
+	printf(" ================ philo = %d at %d\n", philo->id, (int)(get_time() - philo->info->begin));
+	printf(" ============ temps a vivre = %d\n", temps);
+	printf(" ============ ttd = %d\n", philo->info->time_to_death / 1000);
+	printf(" ============ lstm = %d\n", (int)(get_time() - philo->last_meals));
+	printf(" ============ time_to = %d\n", time_to / 1000);
+	if (temps > 0)
+	{
+		pthread_mutex_unlock(&philo->info->print);
 		return ;
-	ft_message(philo, "is dead 😈");
+	}
+	printf("usleep %d - %d  = %d\n", temps, (time_to / 1000), (temps + (time_to / 1000)));
+	pthread_mutex_unlock(&philo->info->print);
+	ft_message(philo, " is dead 😈");
+
 }
 
 double get_time()

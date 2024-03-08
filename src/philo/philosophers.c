@@ -91,14 +91,15 @@ void	*dinner(void *philo)
 	int		i;
 
 	tmp = (t_philo *) philo;
-	i = 3;
+	i = 5
+	;
 	if (tmp->last_meals == 0)
 		tmp->last_meals = tmp->info->begin;
 	ft_message(philo, "is thinking");
 	while (i--)
 	{
 		ft_eat(tmp);
-		ft_sleep(tmp);
+	//	ft_sleep(tmp);
 	}
 	return (NULL);
 }
