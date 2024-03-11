@@ -44,6 +44,7 @@ void	ft_eat(t_philo *philo)
 	}
 	ft_died(philo, philo->info->time_to_eat);
 	philo->last_meals = get_time();
+	// printf("last meals = %f\n", get_time() - philo->last_meals);
 	ft_message(philo, "is eating");
 	usleep(philo->info->time_to_eat);
 	pthread_mutex_unlock(&philo->fork_id);
@@ -52,7 +53,7 @@ void	ft_eat(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	ft_died(philo, philo->info->time_to_sleep);
+	//(void)philo;
 	ft_message(philo, "is sleeping");
 	usleep(philo->info->time_to_sleep);
 	ft_message(philo, "is thinking");
@@ -61,23 +62,35 @@ void	ft_sleep(t_philo *philo)
 void	ft_died(t_philo *philo, int time_to)
 {
 	int				temps;
-	
-	temps = philo->info->time_to_death / 1000 - ((get_time() - philo->last_meals) + time_to / 1000);
+
+	temps = ((get_time() - philo->last_meals)) + (time_to / 1000);
+
 	pthread_mutex_lock(&philo->info->print);
 	printf(" ================ philo = %d at %d\n", philo->id, (int)(get_time() - philo->info->begin));
 	printf(" ============ temps a vivre = %d\n", temps);
 	printf(" ============ ttd = %d\n", philo->info->time_to_death / 1000);
 	printf(" ============ lstm = %d\n", (int)(get_time() - philo->last_meals));
 	printf(" ============ time_to = %d\n", time_to / 1000);
-	if (temps > 0)
+	if (temps < philo->info->time_to_death / 1000)
 	{
+		printf("TTD = %d 🥰\n", temps);
 		pthread_mutex_unlock(&philo->info->print);
 		return ;
 	}
-	printf("usleep %d - %d  = %d\n", temps, (time_to / 1000), (temps + (time_to / 1000)));
-	pthread_mutex_unlock(&philo->info->print);
-	ft_message(philo, " is dead 😈");
+	if ((get_time() - philo->last_meals) > philo->info->time_to_death)
+	{
+		pthread_mutex_unlock(&philo->info->print);
+		ft_message(philo, " is dead 😈");
+	}
+	else
+	{
+		printf("t %d\n", (int)(philo->info->time_to_death / 1000));
+		//usleep((int)(philo->info->time_to_death));
+		pthread_mutex_unlock(&philo->info->print);
+		ft_message(philo, " is dead 😈");
 
+	}
+	exit(1);
 }
 
 double get_time()

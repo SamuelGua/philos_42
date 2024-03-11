@@ -40,10 +40,15 @@ clean:
 
 fclean: clean
 	@$(RM) $(OBJ_DIR) $(NAME)
-	
+
 
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 
+git: fclean
+	git add *
+	git commit -m "git make fast"
+	git push
 
+.PHONY: all clean fclean re git

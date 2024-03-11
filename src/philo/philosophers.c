@@ -99,7 +99,7 @@ void	*dinner(void *philo)
 	while (i--)
 	{
 		ft_eat(tmp);
-	//	ft_sleep(tmp);
+		ft_sleep(tmp);
 	}
 	return (NULL);
 }
