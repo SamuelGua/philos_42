@@ -47,8 +47,8 @@ re:
 	@$(MAKE) all
 
 git: fclean
-	git add *
-	git commit -m "git make fast"
-	git push
+	@git add *
+	@git commit -m "git make fast"
+	@git push
 
 .PHONY: all clean fclean re git
