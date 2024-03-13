@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/07 12:06:32 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/13 09:42:18 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_eat(t_philo *philo)
 void	ft_sleep(t_philo *philo)
 {
 	//(void)philo;
+	ft_died(philo, philo->info->time_to_sleep);
 	ft_message(philo, "is sleeping");
 	usleep(philo->info->time_to_sleep);
 	ft_message(philo, "is thinking");
@@ -66,11 +67,6 @@ void	ft_died(t_philo *philo, int time_to)
 	temps = ((get_time() - philo->last_meals)) + (time_to / 1000);
 
 	pthread_mutex_lock(&philo->info->print);
-	printf(" ================ philo = %d at %d\n", philo->id, (int)(get_time() - philo->info->begin));
-	printf(" ============ temps a vivre = %d\n", temps);
-	printf(" ============ ttd = %d\n", philo->info->time_to_death / 1000);
-	printf(" ============ lstm = %d\n", (int)(get_time() - philo->last_meals));
-	printf(" ============ time_to = %d\n", time_to / 1000);
 	if (temps < philo->info->time_to_death / 1000)
 	{
 		printf("TTD = %d 🥰\n", temps);
@@ -80,12 +76,13 @@ void	ft_died(t_philo *philo, int time_to)
 	if ((get_time() - philo->last_meals) > philo->info->time_to_death)
 	{
 		pthread_mutex_unlock(&philo->info->print);
+		usleep((philo->info->time_to_death / 1000 - ((get_time() - philo->last_meals))) * 1000);
 		ft_message(philo, " is dead 😈");
 	}
 	else
 	{
-		printf("t %d\n", (int)(philo->info->time_to_death / 1000));
-		//usleep((int)(philo->info->time_to_death));
+		printf("t %f\n",(philo->info->time_to_death / 1000 - ((get_time() - philo->last_meals))));
+		usleep((philo->info->time_to_death / 1000 - ((get_time() - philo->last_meals))) * 1000);
 		pthread_mutex_unlock(&philo->info->print);
 		ft_message(philo, " is dead 😈");
 
