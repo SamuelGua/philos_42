@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/07 12:17:15 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/16 13:01:46 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@ struct t_list;
 
 typedef struct philosophers
 {
-	int			id;
+	int						id;
 
-	pthread_t	thread;
-	pthread_mutex_t fork_id;
+	pthread_t				thread;
+	pthread_mutex_t			fork_id;
 
-	int			n_meals;
-	double		last_meals;
+	int						n_meals;
+	double					last_meals;
 
+	int						stats;
 	struct philosophers		*prev;
 	struct philosophers		*next;
-	struct t_list		*info;
+	struct t_list			*info;
 }	t_philo;
 
 typedef struct t_list
@@ -44,6 +45,8 @@ typedef struct t_list
 	
 	int			num_of_philo;
 	t_philo		*philos;
+	int			died;
+	int 		all_eataen;
 
 	int			num_of_eat;	
 	int			time_to_eat;
@@ -65,14 +68,14 @@ long	ft_atol(const char *c);
 int		check_args(char *av, int j);
 
 //print stats
-void	ft_message(t_philo *philo, char *str);
+void	ft_message(t_philo *philo, char *str, int time_to);
 void 	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	ft_died(t_philo * philo, int time_to);
 
-void ft_free(t_philo *lst, int num_philo);
+void 	ft_free(t_philo *lst, int num_philo);
 void	init_destroy_mutex(t_data *data);
-double get_time();
+double 	get_time();
 
 void printlist(t_philo *list, int num_of_philo);
 #endif

@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/07 14:17:52 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/16 14:55:48 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 		if (!tmp)
 			return ;
 		tmp->info = data;
-		tmp->n_meals = data->num_of_eat;
+		tmp->n_meals = 0;
+		tmp->stats = 0;
 		ft_lstadd_back(list, tmp);
 	}
 	tmp->next = *list;
@@ -77,6 +78,8 @@ void	init_data(char **av, t_data *data)
 	data->time_to_death = ft_atoi(av[2]) * 1000;
 	data->time_to_eat = ft_atoi(av[3]) * 1000;
 	data->time_to_sleep = ft_atoi(av[4]) * 1000;
+	data->died = 0;
+	data->all_eataen = 0;
 	if (av[5] == NULL || ft_atoi(av[5]) == 0)
 		data->num_of_eat = -1;
 	else
@@ -95,9 +98,12 @@ void	*dinner(void *philo)
 	;
 	if (tmp->last_meals == 0)
 		tmp->last_meals = tmp->info->begin;
-	ft_message(philo, "is thinking");
-	while (i--)
+	ft_message(philo, "is thinking", 0);
+	while (tmp->info->died == 0 &&
+		tmp->info->all_eataen != tmp->info->num_of_philo)
 	{
+		printf("eaten == %d\n", tmp->info->all_eataen);
+		printf("n_meals = %d %d\n",tmp->id ,tmp->n_meals);
 		ft_eat(tmp);
 		ft_sleep(tmp);
 	}
