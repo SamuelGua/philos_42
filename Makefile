@@ -47,6 +47,7 @@ re:
 	@$(MAKE) all
 
 git: fclean
+	@echo "$(COLOR_GREEN)$(COLOR_BOLD)- Cleaning done$(COLOR_RESET)"
 	@git add *
 	@echo "$(COLOR_GREEN)$(COLOR_BOLD)- All files is adding$(COLOR_RESET)"
 	@git commit -m "git make fast"
