@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <string.h>	  // memset
 # include <stdio.h>	  // printf
@@ -42,6 +42,7 @@ typedef struct t_list
 {
 	pthread_mutex_t print;
 	pthread_mutex_t meal;
+	pthread_mutex_t test;
 	
 	int			num_of_philo;
 	t_philo		*philos;
@@ -56,18 +57,18 @@ typedef struct t_list
 
 }	t_data;
 
-// list init
+//list init
 t_philo	*ft_lstnew(int content);
 t_philo	*ft_lstlast(t_philo *lst);
 void	ft_lstadd_back(t_philo **lst, t_philo *new);
 
-// PARSING
+//parsing
 int		ft_atoi(const char *c);
 int		ft_isdigit(int c);
 long	ft_atol(const char *c);
 int		check_args(char *av, int j);
 
-//print stats
+//philo manager
 void	ft_message(t_philo *philo, char *str, int time_to);
 void 	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);

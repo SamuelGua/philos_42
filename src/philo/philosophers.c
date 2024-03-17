@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-
-void	printlist(t_philo *list, int num_of_philo);
+#include "philo.h"
 
 void	init_philo(char **av, t_philo **list, t_data *data)
 {
@@ -31,6 +29,7 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 		tmp->info = data;
 		tmp->n_meals = 0;
 		tmp->stats = 0;
+		tmp->last_meals = 0;
 		ft_lstadd_back(list, tmp);
 	}
 	tmp->next = *list;
@@ -51,6 +50,7 @@ void	init_mutex(t_data *data)
 	}
 	data->philos = tmp;
 	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->test, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 }
 
@@ -88,22 +88,28 @@ void	init_data(char **av, t_data *data)
 	init_mutex(data);
 }
 
+int check_end(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->print);
+	if (philo->info->died == 1)
+		return (pthread_mutex_unlock(&philo->info->print), 1);
+	pthread_mutex_unlock(&philo->info->print);
+	pthread_mutex_lock(&philo->info->meal);
+	if (philo->info->all_eataen == philo->info->num_of_philo)
+		return (pthread_mutex_unlock(&philo->info->meal), 1);
+	pthread_mutex_unlock(&philo->info->meal);
+	return (0);
+}
+
 void	*dinner(void *philo)
 {
 	t_philo	*tmp;
-	int		i;
 
 	tmp = (t_philo *) philo;
-	i = 5
-	;
 	if (tmp->last_meals == 0)
 		tmp->last_meals = tmp->info->begin;
-	ft_message(philo, "is thinking", 0);
-	while (tmp->info->died == 0 &&
-		tmp->info->all_eataen != tmp->info->num_of_philo)
+	while (!check_end(philo))
 	{
-		printf("eaten == %d\n", tmp->info->all_eataen);
-		printf("n_meals = %d %d\n",tmp->id ,tmp->n_meals);
 		ft_eat(tmp);
 		ft_sleep(tmp);
 	}
@@ -121,8 +127,7 @@ void	thread(t_data *data)
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
 		data->philos = data->philos->next;
 	}
-	i = 0;
-	while (i++ < data->num_of_philo)
+	while (--i > 0)
 	{
 		pthread_join(data->philos->thread, NULL);
 		data->philos = data->philos->next;
@@ -147,16 +152,4 @@ int	main(int ac, char **av)
 	thread(&data);
 	printlist(data.philos, data.num_of_philo);
 	ft_free(data.philos, data.num_of_philo);
-}
-
-void	printlist(t_philo *list, int num_of_philo)
-{
-	int	j;
-
-	j = 0;
-	while (j++ < num_of_philo)
-	{
-		printf("philo->%i ", list->id);
-		list = list->next;
-	}
 }

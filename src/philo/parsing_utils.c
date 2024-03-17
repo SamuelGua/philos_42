@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philo.h"
+
 int	ft_atoi(const char *c)
 {
 	int	i;
@@ -90,4 +92,16 @@ int	check_args(char *av, int j)
 	else if (j != 6 && (ft_atol(av) < 1 || ft_atol(av) >= __INT_MAX__))
 		return (1);
 	return (0);
+}
+
+void	printlist(t_philo *list, int num_of_philo)
+{
+	int	j;
+
+	j = 0;
+	while (j++ < num_of_philo)
+	{
+		printf("philo->%i ", list->id);
+		list = list->next;
+	}
 }

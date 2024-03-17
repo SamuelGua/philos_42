@@ -31,7 +31,7 @@ $(NAME): $(OBJS)
 		@$(CC) $(OBJS) -o $(NAME) 
 		@echo "$(COLOR_GREEN)$(COLOR_BOLD)Compilation fini 👍 $(COLOR_RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/philosophers.h
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/philo.h
 		@$(DIR_DUP)
 		@$(CC) $(CFLAGS) $(CCFLAGS) -c -o $@ $<
 
