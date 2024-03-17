@@ -104,8 +104,13 @@ int check_end(t_philo *philo)
 void	*dinner(void *philo)
 {
 	t_philo	*tmp;
-
 	tmp = (t_philo *) philo;
+	if (tmp->info->num_of_philo == 1)
+	{
+		usleep(tmp->info->time_to_death);
+		printf("%d %d %s\n", (int)(get_time() - tmp->info->begin), tmp->id, "is dead");
+		return (NULL);
+	}
 	if (tmp->last_meals == 0)
 		tmp->last_meals = tmp->info->begin;
 	while (!check_end(philo))
@@ -150,6 +155,6 @@ int	main(int ac, char **av)
 	}
 	init_data(av, &data);
 	thread(&data);
-	printlist(data.philos, data.num_of_philo);
+	//printlist(data.philos, data.num_of_philo);
 	ft_free(data.philos, data.num_of_philo);
 }
