@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 09:24:23 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 14:47:01 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	init_mutex(t_data *data)
 	}
 	data->philos = tmp;
 	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->test, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 }
 
@@ -111,8 +110,7 @@ void	*dinner(void *philo)
 		printf("%d %d %s\n", (int)(get_time() - tmp->info->begin), tmp->id, "is dead");
 		return (NULL);
 	}
-	if (tmp->last_meals == 0)
-		tmp->last_meals = tmp->info->begin;
+	tmp->last_meals = tmp->info->begin;
 	while (!check_end(philo))
 	{
 		ft_eat(tmp);
@@ -132,6 +130,7 @@ void	thread(t_data *data)
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
 		data->philos = data->philos->next;
 	}
+
 	while (--i > 0)
 	{
 		pthread_join(data->philos->thread, NULL);
@@ -155,6 +154,6 @@ int	main(int ac, char **av)
 	}
 	init_data(av, &data);
 	thread(&data);
-	//printlist(data.philos, data.num_of_philo);
+	printlist(data.philos, data.num_of_philo);
 	ft_free(data.philos, data.num_of_philo);
 }

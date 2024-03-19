@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 01:18:41 by scely             #+#    #+#             */
-/*   Updated: 2024/02/21 02:21:15 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 14:51:32 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	printlist(t_philo *list, int num_of_philo)
 	j = 0;
 	while (j++ < num_of_philo)
 	{
-		printf("philo->%i ", list->id);
+		printf("philo->%i prev <-%d | ", list->id, list->prev->id);
 		list = list->next;
 	}
 }

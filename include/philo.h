@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/16 13:01:46 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 10:46:32 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct t_list
 {
 	pthread_mutex_t print;
 	pthread_mutex_t meal;
-	pthread_mutex_t test;
 	
 	int			num_of_philo;
 	t_philo		*philos;
