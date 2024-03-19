@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/16 13:46:32 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 09:27:03 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_message(t_philo *philo, char *str, int time_to)
 	}
 	ft_died(philo, time_to);
 	temps = get_time() - philo->info->begin;
+
 	if (philo->stats == 1)
 		printf("%d %d %s\n", temps, philo->id, "is dead");
 	else
@@ -51,6 +52,13 @@ void	ft_eat(t_philo *philo)
 	}
 
 	ft_message(philo, "is eating", philo->info->time_to_eat);
+	if (philo->stats == 1)
+	{
+		pthread_mutex_unlock(&philo->fork_id);
+		pthread_mutex_unlock(&philo->prev->fork_id);
+		pthread_mutex_unlock(&philo->info->meal);
+		return ;
+	}
 	philo->last_meals = get_time();
 	usleep(philo->info->time_to_eat);
 	philo->n_meals++;
@@ -76,6 +84,7 @@ void	ft_died(t_philo *philo, int time_to)
 	int				temps;
 
 	temps = (get_time() - philo->last_meals);
+	//printf("=======> ttd = %d | temps = %d | action + lstm = %d\n", philo->info->time_to_death /1000, temps, temps + (time_to / 1000));
 	if (philo->info->time_to_death / 1000 > temps + (time_to / 1000))
 		return ;
 	else

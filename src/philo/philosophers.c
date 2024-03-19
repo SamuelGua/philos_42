@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/16 14:55:48 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 09:24:23 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 	int		num_philo;
 	int		i;
 
-	tmp = *list;
+	tmp = *list; 
 	num_philo = atoi(av[1]);
 	i = 0;
 	while (i++ < num_philo)
