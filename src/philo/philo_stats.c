@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 15:14:37 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 17:37:05 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_message(t_philo *philo, char *str, int time_to)
 
 	ft_died(philo, time_to);
 	temps = get_time() - philo->info->begin;
-	//printf("last_meals %d\n", (int)(get_time() - philo->last_meals));
+	printf("last_meals %d ", (int)(get_time() - philo->last_meals));
 	if (philo->stats == 1)
 	{
 		printf("%d %d %s\n", temps, philo->id, "is dead");

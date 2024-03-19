@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 14:47:01 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/19 17:50:29 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,11 @@ void	*dinner(void *philo)
 		return (NULL);
 	}
 	tmp->last_meals = tmp->info->begin;
-	while (!check_end(philo))
+	if (tmp->id % 2 == 0)
+		usleep(500);
+	else
+		usleep(1000);
+	while (!check_end(tmp))
 	{
 		ft_eat(tmp);
 		ft_sleep(tmp);
@@ -127,10 +131,16 @@ void	thread(t_data *data)
 	i = 0;
 	while (i++ < data->num_of_philo)
 	{
-		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
+		if(data->philos->id % 2 == 0) 
+			pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
 		data->philos = data->philos->next;
 	}
-
+	while (i++ < data->num_of_philo)
+	{
+		if(data->philos->id % 2 != 0) 
+			pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
+		data->philos = data->philos->next;
+	}
 	while (--i > 0)
 	{
 		pthread_join(data->philos->thread, NULL);
