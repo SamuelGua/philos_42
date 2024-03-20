@@ -60,3 +60,16 @@ void	ft_free(t_philo *lst, int num_philo)
 		lst = tmp;
 	}
 }
+
+void	printlist(t_philo *list, int num_of_philo)
+{
+	int	j;
+
+	j = 0;
+	while (j++ < num_of_philo)
+	{
+		printf("philo->%i prev <-%d | ", list->id, list->prev->id);
+		list = list->next;
+	}
+	printf("\n");
+}

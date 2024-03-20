@@ -93,15 +93,3 @@ int	check_args(char *av, int j)
 		return (1);
 	return (0);
 }
-
-void	printlist(t_philo *list, int num_of_philo)
-{
-	int	j;
-
-	j = 0;
-	while (j++ < num_of_philo)
-	{
-		printf("philo->%i prev <-%d | ", list->id, list->prev->id);
-		list = list->next;
-	}
-}
