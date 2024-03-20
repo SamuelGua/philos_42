@@ -71,8 +71,8 @@ void	ft_eat(t_philo *philo)
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "has taken fork", philo->info->time_to_eat);
 	}
-	philo->last_meals = get_time();
 	ft_message(philo, "is eating", philo->info->time_to_eat);
+	philo->last_meals = get_time();
 	//printf("meals numbers <%d> of philo [%d]\n", philo->n_meals+1, philo->id);
 	if (philo->stats == 1)
 	{
@@ -93,7 +93,8 @@ void	ft_eat(t_philo *philo)
 void	ft_sleep(t_philo *philo)
 {
 	ft_message(philo, "is sleeping", philo->info->time_to_sleep);
-	usleep(philo->info->time_to_sleep);
+	if (philo->stats == 0)
+		usleep(philo->info->time_to_sleep);
 	ft_message(philo, "is thinking", 0);
 	usleep(500);
 }
@@ -105,10 +106,10 @@ void	ft_died(t_philo *philo, int time_to)
 
 	temps = (get_time() - philo->last_meals);
 	printf("{%d} ", philo->id);
-	printf("temps = %d || meals = %d || death = %d\n", temps, time_to / 1000, philo->info->time_to_death / 1000);
+	printf("temps = %d || time-to = %d || death = %d\n", temps, time_to / 1000, philo->info->time_to_death / 1000);
 	// if ((philo->info->time_to_death / 1000) >= (temps/* + (time_to / 1000)*/))
 	//  	return ;
-	if (temps + time_to / 1000 > (philo->info->time_to_death / 1000) + 5)
+	if ((temps + time_to / 1000 > (philo->info->time_to_death / 1000) + 5) || (time_to > philo->info->time_to_death) )
 	{
 		printf("temps + action = %d || death = %d\n", temps + time_to / 1000, philo->info->time_to_death / 1000);
 

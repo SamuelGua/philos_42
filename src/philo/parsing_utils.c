@@ -77,19 +77,20 @@ int	check_args(char *av, int j)
 	int	i;
 
 	i = 0;
-	if (av[i] == '-')
-		return (1);
-	else if (av[i] == '+')
+	if (av[i] == '+')
 		i++;
 	while (av[i])
 	{
-		if (ft_isdigit(av[i]) == 0 || i > 10)
+		if (ft_isdigit(av[i]) == 0)
 			return (1);
 		i++;
 	}
-	if (j == 6 && (ft_atol(av) < 0 || ft_atol(av) >= __INT_MAX__))
+	if (i == 11)
 		return (1);
-	else if (j != 6 && (ft_atol(av) < 1 || ft_atol(av) >= __INT_MAX__))
+	printf("%d atol de %ld\n",i, ft_atol(av));
+	if (j == 6 && (ft_atol(av) < 0 || ft_atol(av) >= 1001))
+		return (1);
+	else if (j != 6 && (ft_atol(av) < 1 || ft_atol(av) >= 1001))
 		return (1);
 	return (0);
 }
