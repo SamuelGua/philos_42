@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/21 13:59:28 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:07:00 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,17 @@ void	*manage(void *tmp)
 	t_data *data;
 
 	data = (t_data *) tmp;
+	pthread_mutex_lock(&data->print);
+	printf("[%d] ", data->philos->id);
+	printf("lstm = %f | last-meal %f | ttd = %d\n", data->philos->last_meals, (get_time() - data->philos->last_meals), data->time_to_death);
+	printf("	temps = %f | last-meal %f | ttd = %d\n", get_time(), data->philos->last_meals, data->time_to_death);
+	pthread_mutex_unlock(&data->print);
+			
 	while (1)
 	{
-		if ((get_time() - data->philos->last_meals) > data->time_to_death + 5)
+		if ((get_time() - data->philos->last_meals) > data->time_to_death)
 		{
+			printf("[%d] ", data->philos->id);
 			printf("temps = %f | last-meal %f | ttd = %d\n", get_time(), data->philos->last_meals, data->time_to_death);
 			printf("last-meal %f | ttd = %d\n",(get_time() - data->philos->last_meals), data->time_to_death);
 			data->died = 1;
@@ -49,10 +56,10 @@ void	*dinner(void *philo)
 	t_philo	*tmp;
 
 	tmp = (t_philo *) philo;
-	//tmp->last_meals = get_time();
-	//printf("[%d] dinner last-meals = %f\n",tmp->id, tmp->last_meals);
-	//pthread_create(&tmp->info->monitor, NULL, &manage, tmp->info);
-	//pthread_detach(tmp->info->monitor);
+	tmp->last_meals = get_time();
+	printf("{%d} lstm = %f\n", tmp->id, tmp->last_meals);
+	pthread_create(&tmp->info->monitor, NULL, &manage, tmp->info);
+	pthread_detach(tmp->info->monitor);
 	if (tmp->info->num_of_philo == 1)
 	{
 		printf("%d %d %s\n", (int)(get_time()
