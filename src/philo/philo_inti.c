@@ -27,9 +27,7 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 		if (!tmp)
 			return ;
 		tmp->info = data;
-		tmp->n_meals = 0;
 		tmp->stats = 0;
-		tmp->last_meals = 0;
 		ft_lstadd_back(list, tmp);
 	}
 	tmp->next = *list;

@@ -12,9 +12,6 @@
 
 #include "philo.h"
 
-
-
-
 /*=======================================================*/
 
 int	get_bool(t_data *data)
@@ -47,7 +44,6 @@ void	ft_message(t_philo *philo, char *str, int time_to)
 	(void)time_to;
 	//ft_died(philo, time_to);
 	temps = get_time() - philo->info->begin;
-	//printf("last_meals %d ", (int)(get_time() - philo->last_meals));
 	if (philo->stats == 1)
 	{
 		printf("%d %d %s\n", temps, philo->id, "\033[1;31m is dead\033[0m");
@@ -59,6 +55,8 @@ void	ft_message(t_philo *philo, char *str, int time_to)
 
 void	ft_eat(t_philo *philo)
 {
+	if (philo->n_meals < 2 )
+		printf("last meals %f\n", (get_time() - philo->last_meals));
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork_id);
@@ -75,7 +73,6 @@ void	ft_eat(t_philo *philo)
 	}
 	philo->last_meals = get_time();
 	ft_message(philo, "\033[0;32m is eating \033[0m", philo->info->time_to_eat);
-	//printf("meals numbers <%d> of philo [%d]\n", philo->n_meals+1, philo->id);
 	if (philo->stats == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_id);
@@ -95,8 +92,7 @@ void	ft_eat(t_philo *philo)
 void	ft_sleep(t_philo *philo)
 {
 	ft_message(philo, "\033[0;34m is sleeping \033[0m", philo->info->time_to_sleep);
-	if (philo->stats == 0)
-		ft_usleep(philo->info->time_to_sleep);
+	ft_usleep(philo->info->time_to_sleep);
 	ft_message(philo, "\033[0;33m is thinking \033[0m",0);
 }
 
@@ -128,8 +124,6 @@ void	ft_usleep(int time_to)
 
 	while (time_to > 0)
 	{
-	//	printf("time_to %d, pourcentage %d\n", time_to, pourcent);
-		//exit(1);
 		usleep(pourcent);
 		time_to -= pourcent;
 	}

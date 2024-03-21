@@ -21,7 +21,7 @@ t_philo	*ft_lstnew(int content)
 		return (NULL);
 	new->id = content;
 	new->n_meals = 0;
-	new->last_meals = 0;
+	new->last_meals = get_time();
 	new->next = NULL;
 	return (new);
 }

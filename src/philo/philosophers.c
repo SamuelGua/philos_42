@@ -26,27 +26,30 @@ int	check_end(t_philo *philo)
 }
 void	*manage(void *tmp)
 {
-	t_data *data;
+	t_philo *philo = (t_philo * )tmp;
 
-	data = (t_data *) tmp;
-	pthread_mutex_lock(&data->print);
-	printf("[%d] ", data->philos->id);
-	printf("lstm = %f | last-meal %f | ttd = %d\n", data->philos->last_meals, (get_time() - data->philos->last_meals), data->time_to_death);
-	printf("	temps = %f | last-meal %f | ttd = %d\n", get_time(), data->philos->last_meals, data->time_to_death);
-	pthread_mutex_unlock(&data->print);
+	// pthread_mutex_lock(&philo->info->print);
+	// philo = philo->next;
+	// printf("[%d] temps = %f", philo->id, get_time());
+	// printf(" lstm = %f | last-meal diff %f | ttd = %d\n", philo->last_meals,
+	// 		(get_time() - philo->last_meals), philo->info->time_to_death);
+	// pthread_mutex_unlock(&philo->info->print);
 			
 	while (1)
 	{
-		if ((get_time() - data->philos->last_meals) > data->time_to_death)
+		//usleep(500);
+		//printf(" lstm = %f | last-meal diff %f | ttd = %d\n", philo->last_meals,(get_time() - philo->last_meals), philo->info->time_to_death / 1000);
+
+		if ((get_time() - philo->last_meals) - 5 > philo->info->time_to_death / 1000)
 		{
-			printf("[%d] ", data->philos->id);
-			printf("temps = %f | last-meal %f | ttd = %d\n", get_time(), data->philos->last_meals, data->time_to_death);
-			printf("last-meal %f | ttd = %d\n",(get_time() - data->philos->last_meals), data->time_to_death);
-			data->died = 1;
-			data->philos->stats = 1;
+			//printf("temps = %f | last-meal %f | ttd = %d\n", get_time(), philo->last_meals, philo->info->time_to_death);
+			//printf("last-meal %f | ttd = %d\n",(get_time() - philo->last_meals), philo->info->time_to_death);
+			philo->info->died = 1;
+			philo->stats = 1;
+			printf("[%d] is dead at %d\n", philo->id, (int)(get_time() - philo->info->begin));
 			exit(1);
 		}
-		data->philos = data->philos->next;
+		philo = philo->next;
 	}
 }
 
@@ -56,10 +59,6 @@ void	*dinner(void *philo)
 	t_philo	*tmp;
 
 	tmp = (t_philo *) philo;
-	tmp->last_meals = get_time();
-	printf("{%d} lstm = %f\n", tmp->id, tmp->last_meals);
-	pthread_create(&tmp->info->monitor, NULL, &manage, tmp->info);
-	pthread_detach(tmp->info->monitor);
 	if (tmp->info->num_of_philo == 1)
 	{
 		printf("%d %d %s\n", (int)(get_time()
@@ -87,7 +86,9 @@ void	thread(t_data *data)
 	data->begin = get_time();
 	i = 0;
 	data->ready = 0;
-	pthread_mutex_init(&data->synchro, NULL);
+	t_philo *tmp = data->philos;
+	pthread_create(&tmp->info->monitor, NULL, &manage, data->philos);
+	pthread_detach(tmp->info->monitor);
 	while (i++ < data->num_of_philo)
 	{
 		if (i == data->num_of_philo)
