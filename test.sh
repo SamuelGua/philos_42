@@ -14,7 +14,7 @@ echo "	[1] : 1 800 200 200 not eat and die
 	[2] : 3 800 200 200 no one die
 	[3] : 3 800 200 200 [7] no one die
 	[4] : 4 410 200 200 no one die
-	[5] : 4 310 200 200 one die
+	[5] : 4 310 200 100 one die
 Put a number :" 
 read user_input
 

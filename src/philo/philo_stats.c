@@ -6,11 +6,12 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 17:37:05 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/21 13:52:48 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
 
 
 
@@ -48,7 +49,7 @@ void	ft_message(t_philo *philo, char *str, int time_to)
 	//printf("last_meals %d ", (int)(get_time() - philo->last_meals));
 	if (philo->stats == 1)
 	{
-		printf("%d %d %s\n", temps, philo->id, "is dead");
+		printf("%d %d %s\n", temps, philo->id, "\033[1;31m is dead\033[0m");
 	}
 	else
 		printf("%d %d %s\n", temps, philo->id, str);
@@ -60,19 +61,19 @@ void	ft_eat(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork_id);
-		ft_message(philo, "has taken fork", philo->info->time_to_eat);
+		ft_message(philo, "\033[1;35m has taken fork \033[0m", 0);
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "has taken fork - 1", philo->info->time_to_eat);
+		ft_message(philo, "\033[1;35m has taken fork - 1 \033[0m",0);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "has taken fork - 1", philo->info->time_to_eat);
+		ft_message(philo, "\033[1;35m has taken fork - 1 \033[0m", 0);
 		pthread_mutex_lock(&philo->fork_id);
-		ft_message(philo, "has taken fork", philo->info->time_to_eat);
+		ft_message(philo, "\033[1;35m has taken fork \033[0m", 0);
 	}
-	ft_message(philo, "is eating", philo->info->time_to_eat);
 	philo->last_meals = get_time();
+	ft_message(philo, "\033[0;32m is eating \033[0m", philo->info->time_to_eat);
 	//printf("meals numbers <%d> of philo [%d]\n", philo->n_meals+1, philo->id);
 	if (philo->stats == 1)
 	{
@@ -80,7 +81,7 @@ void	ft_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->prev->fork_id);
 		return ;
 	}
-	usleep(philo->info->time_to_eat);
+	ft_usleep(philo->info->time_to_eat);
 	philo->n_meals++;
 	pthread_mutex_lock(&philo->info->meal);
 	if (philo->n_meals == philo->info->num_of_eat)
@@ -92,17 +93,16 @@ void	ft_eat(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	ft_message(philo, "is sleeping", philo->info->time_to_sleep);
+	ft_message(philo, "\033[0;34m is sleeping \033[0m", philo->info->time_to_sleep);
 	if (philo->stats == 0)
-		usleep(philo->info->time_to_sleep);
-	ft_message(philo, "is thinking", 0);
-	usleep(500);
+		ft_usleep(philo->info->time_to_sleep);
+	ft_message(philo, "\033[0;33m is thinking \033[0m",0);
 }
 
 void	ft_died(t_philo *philo, int time_to)
 {
 	int				temps;
-	(void)time_to;
+	//(void)time_to;
 
 	temps = (get_time() - philo->last_meals);
 	printf("{%d} ", philo->id);
@@ -115,9 +115,22 @@ void	ft_died(t_philo *philo, int time_to)
 
 		philo->info->died = 1;
 		philo->stats = 1;
-		usleep((philo->info->time_to_death / 1000 - temps) * 1000);
+		ft_usleep(( philo->info->time_to_death  / 1000 - temps) * 1000);
 		return;
 	}
 	
+}
+
+void	ft_usleep(int time_to)
+{
+	int pourcent = time_to * 0.1;
+
+	while (time_to > 0)
+	{
+	//	printf("time_to %d, pourcentage %d\n", time_to, pourcent);
+		//exit(1);
+		usleep(pourcent);
+		time_to -= pourcent;
+	}
 }
 

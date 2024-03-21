@@ -6,13 +6,13 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 17:50:29 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/21 13:59:28 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_end(t_philo *philo)
+int	check_end(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->print);
 	if (philo->info->died == 1)
@@ -24,25 +24,47 @@ int check_end(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->meal);
 	return (0);
 }
+void	*manage(void *tmp)
+{
+	t_data *data;
+
+	data = (t_data *) tmp;
+	while (1)
+	{
+		if ((get_time() - data->philos->last_meals) > data->time_to_death + 5)
+		{
+			printf("temps = %f | last-meal %f | ttd = %d\n", get_time(), data->philos->last_meals, data->time_to_death);
+			printf("last-meal %f | ttd = %d\n",(get_time() - data->philos->last_meals), data->time_to_death);
+			data->died = 1;
+			data->philos->stats = 1;
+			exit(1);
+		}
+		data->philos = data->philos->next;
+	}
+}
 
 void	*dinner(void *philo)
 {
-	
+
 	t_philo	*tmp;
+
 	tmp = (t_philo *) philo;
+	//tmp->last_meals = get_time();
+	//printf("[%d] dinner last-meals = %f\n",tmp->id, tmp->last_meals);
+	//pthread_create(&tmp->info->monitor, NULL, &manage, tmp->info);
+	//pthread_detach(tmp->info->monitor);
 	if (tmp->info->num_of_philo == 1)
 	{
-		printf("%d %d %s\n", (int)(get_time() - tmp->info->begin), tmp->id, "has taken a fork");
-		usleep(tmp->info->time_to_death);
-		printf("%d %d %s\n", (int)(get_time() - tmp->info->begin), tmp->id, "is dead");
+		printf("%d %d %s\n", (int)(get_time()
+				- tmp->info->begin), tmp->id, "has taken a fork");
+		ft_usleep(tmp->info->time_to_death);
+		printf("%d %d %s\n", (int)(get_time()
+				- tmp->info->begin), tmp->id, "is dead");
 		return (NULL);
 	}
 	pthread_mutex_init(&tmp->info->synchro, NULL);
-	//wait_all_threads(tmp->info);
-	// if (tmp->id %2 == 0)
-	// 	usleep(10000);
 	tmp->last_meals = tmp->info->begin;
-	ft_message(philo, "is thinking", 0);
+	ft_message(philo, "\033[0;33m is thinking \033[0m", 0);
 	while (!check_end(tmp))
 	{
 		ft_eat(tmp);
@@ -55,7 +77,7 @@ void	thread(t_data *data)
 {
 	int				i;
 
-	data->begin = get_time() ;
+	data->begin = get_time();
 	i = 0;
 	data->ready = 0;
 	pthread_mutex_init(&data->synchro, NULL);

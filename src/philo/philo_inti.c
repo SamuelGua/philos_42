@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_inti.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 10:35:07 by scely             #+#    #+#             */
+/*   Updated: 2024/03/21 13:54:39 by scely            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	init_philo(char **av, t_philo **list, t_data *data)
@@ -6,7 +18,7 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 	int		num_philo;
 	int		i;
 
-	tmp = *list; 
+	tmp = *list;
 	num_philo = atoi(av[1]);
 	i = 0;
 	while (i++ < num_philo)
@@ -75,7 +87,7 @@ void	init_data(char **av, t_data *data)
 	init_mutex(data);
 }
 
-double get_time()
+double	get_time(void)
 {
 	struct timeval	time;
 

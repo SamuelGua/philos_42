@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 01:18:41 by scely             #+#    #+#             */
-/*   Updated: 2024/03/19 14:51:32 by scely            ###   ########.fr       */
+/*   Created: 2024/03/21 10:34:52 by scely             #+#    #+#             */
+/*   Updated: 2024/03/21 10:34:54 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	ft_isdigit(int c)
 		return (0);
 }
 
+// 10 sec == 10000ms == 1e4
 int	check_args(char *av, int j)
 {
 	int	i;
@@ -87,10 +88,9 @@ int	check_args(char *av, int j)
 	}
 	if (i == 11)
 		return (1);
-	printf("%d atol de %ld\n",i, ft_atol(av));
-	if (j == 6 && (ft_atol(av) < 0 || ft_atol(av) >= 1001))
+	if (j == 6 && (ft_atol(av) < 0 || ft_atol(av) >= 1e4))
 		return (1);
-	else if (j != 6 && (ft_atol(av) < 1 || ft_atol(av) >= 1001))
+	else if (j != 6 && (ft_atol(av) < 1 || ft_atol(av) >= 1e4))
 		return (1);
 	return (0);
 }
