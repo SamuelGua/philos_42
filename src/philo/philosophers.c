@@ -41,6 +41,11 @@ void	*manage(void *tmp)
 			pthread_mutex_unlock(&philo->info->print);
 			return(NULL);
 		}
+		if (philo->info->all_eataen == philo->info->num_of_philo)
+		{
+			philo->info->died = 1;
+			return (NULL);
+		}
 		philo = philo->next;
 	}
 }
@@ -54,12 +59,11 @@ void	*dinner(void *philo)
 	{
 		printf("%d %d %s\n", (int)(get_time()
 				- tmp->info->begin), tmp->id, "has taken a fork");
-		ft_usleep(tmp->info->time_to_death);
+		ft_usleep(tmp->info->time_to_death, tmp);
 		printf("%d %d %s\n", (int)(get_time()
 				- tmp->info->begin), tmp->id, "is dead");
 		return (NULL);
 	}
-	// tmp->last_meals = tmp->info->begin;
 	ft_message(philo, "\033[0;33m is thinking \033[0m");
 	while (!check_end(tmp))
 	{

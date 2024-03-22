@@ -78,8 +78,6 @@ int	check_args(char *av, int j)
 	int	i;
 
 	i = 0;
-	if (av[i] == '+')
-		i++;
 	while (av[i])
 	{
 		if (ft_isdigit(av[i]) == 0)

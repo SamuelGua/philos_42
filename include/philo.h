@@ -83,7 +83,7 @@ double	get_time(void);
 void	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	ft_message(t_philo *philo, char *str);
-void	ft_usleep(int time_to);
+void	ft_usleep(int time_to, t_philo *philo);
 int		check_end(t_philo *philo);
 
 #endif

@@ -23,15 +23,17 @@ void	ft_message(t_philo *philo, char *str)
 		return;
 	}
 	temps = get_time() - philo->info->begin;
-	if (philo->stats == 1)
-		printf("%d %d %s\n", temps, philo->id, "\033[1;31m is dead\033[0m");
-	else
-		printf("%d %d %s\n", temps, philo->id, str);
+	// if (philo->stats == 1)
+	// 	printf("%d %d %s\n", temps, philo->id, "\033[1;31m is dead\033[0m");
+	// else
+	printf("%d %d %s\n", temps, philo->id, str);
 	pthread_mutex_unlock(&philo->info->print);
 }
 
 void	take_forks(t_philo *philo)
 {
+	if(philo->info->died == 1)
+		return ;
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork_id);
@@ -46,42 +48,42 @@ void	take_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "\033[1;35m has taken fork \033[0m");
 	}
+	philo->last_meals = get_time();
 }
 
 void	ft_eat(t_philo *philo)
 {
 	take_forks(philo);
-	philo->last_meals = get_time();
-	if (philo->stats == 1)
+	if (!check_end(philo) && philo->stats == 0)
 	{
-		pthread_mutex_unlock(&philo->fork_id);
-		pthread_mutex_unlock(&philo->prev->fork_id);
-		return ;
-	}
-	ft_message(philo, "\033[0;32m is eating \033[0m");
-	ft_usleep(philo->info->time_to_eat);
-	philo->n_meals++;
-	pthread_mutex_lock(&philo->info->meal);
-	if (philo->n_meals == philo->info->num_of_eat)
+		ft_message(philo, "\033[0;32m is eating \033[0m");
+		ft_usleep(philo->info->time_to_eat, philo);
+		philo->n_meals++;
+		pthread_mutex_lock(&philo->info->meal);
+		if (philo->n_meals == philo->info->num_of_eat)
 		philo->info->all_eataen++;
-	pthread_mutex_unlock(&philo->info->meal);
+		pthread_mutex_unlock(&philo->info->meal);
+	}
 	pthread_mutex_unlock(&philo->fork_id);
 	pthread_mutex_unlock(&philo->prev->fork_id);
 }
 
 void	ft_sleep(t_philo *philo)
 {
-	ft_message(philo, "\033[0;34m is sleeping \033[0m");
-	ft_usleep(philo->info->time_to_sleep);
+	if (!check_end(philo) && philo->stats == 0)
+	{
+		ft_message(philo, "\033[0;34m is sleeping \033[0m");
+		ft_usleep(philo->info->time_to_sleep, philo);
+	}
 	ft_message(philo, "\033[0;33m is thinking \033[0m");
 }
 
-void	ft_usleep(int time_to)
+void	ft_usleep(int time_to, t_philo *philo)
 {
 	int pourcent;
 	
 	pourcent = time_to * 0.1;
-	while (time_to > 0)
+	while (time_to > 0 && philo->info->died == 0)
 	{
 		usleep(pourcent);
 		time_to -= pourcent;
