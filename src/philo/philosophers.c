@@ -32,12 +32,12 @@ void	*manage(void *tmp)
 	
 	while (1)
 	{
-		if ((get_time() - philo->last_meals) - 4 > philo->info->time_to_death / 1000)
+		if ((get_time() - philo->last_meals) - 5 > philo->info->time_to_death / 1000)
 		{
 			pthread_mutex_lock(&philo->info->print);
 			philo->stats = 1;
 			philo->info->died = 1;
-			printf("[%d] is dead at %d\n", philo->id, (int)(get_time() - philo->info->begin));
+			printf("%d %d \033[0;31mdied\033[0m\n",(int)(get_time() - philo->info->begin), philo->id);
 			pthread_mutex_unlock(&philo->info->print);
 			return(NULL);
 		}
@@ -61,10 +61,10 @@ void	*dinner(void *philo)
 				- tmp->info->begin), tmp->id, "has taken a fork");
 		ft_usleep(tmp->info->time_to_death, tmp);
 		printf("%d %d %s\n", (int)(get_time()
-				- tmp->info->begin), tmp->id, "is dead");
+				- tmp->info->begin), tmp->id, "died");
 		return (NULL);
 	}
-	ft_message(philo, "\033[0;33m is thinking \033[0m");
+	ft_message(philo, "\033[0;33mis thinking \033[0m");
 	while (!check_end(tmp))
 	{
 		ft_eat(tmp);
@@ -112,7 +112,7 @@ int	main(int ac, char **av)
 	}
 	init_data(av, &data);
 	thread(&data);
-	printlist(data.philos, data.num_of_philo);
+	//printlist(data.philos, data.num_of_philo);
 	ft_free(data.philos, data.num_of_philo);
 	return (0);
 }

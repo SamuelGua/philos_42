@@ -34,16 +34,16 @@ void	take_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork_id);
-		ft_message(philo, "\033[1;35m has taken fork \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork \033[0m");
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "\033[1;35m has taken fork - 1 \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork - 1 \033[0m");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "\033[1;35m has taken fork - 1 \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork - 1 \033[0m");
 		pthread_mutex_lock(&philo->fork_id);
-		ft_message(philo, "\033[1;35m has taken fork \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork \033[0m");
 	}
 	philo->last_meals = get_time();
 }
@@ -53,7 +53,7 @@ void	ft_eat(t_philo *philo)
 	take_forks(philo);
 	if (!check_end(philo) && philo->stats == 0)
 	{
-		ft_message(philo, "\033[0;32m is eating \033[0m");
+		ft_message(philo, "\033[0;32mis eating \033[0m");
 		ft_usleep(philo->info->time_to_eat, philo);
 		philo->n_meals++;
 		pthread_mutex_lock(&philo->info->meal);
@@ -69,10 +69,10 @@ void	ft_sleep(t_philo *philo)
 {
 	if (!check_end(philo) && philo->stats == 0)
 	{
-		ft_message(philo, "\033[0;34m is sleeping \033[0m");
+		ft_message(philo, "\033[0;34mis sleeping \033[0m");
 		ft_usleep(philo->info->time_to_sleep, philo);
 	}
-	ft_message(philo, "\033[0;33m is thinking \033[0m");
+	ft_message(philo, "\033[0;33mis thinking \033[0m");
 }
 
 void	ft_usleep(int time_to, t_philo *philo)
