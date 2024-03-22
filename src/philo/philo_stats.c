@@ -23,9 +23,6 @@ void	ft_message(t_philo *philo, char *str)
 		return;
 	}
 	temps = get_time() - philo->info->begin;
-	// if (philo->stats == 1)
-	// 	printf("%d %d %s\n", temps, philo->id, "\033[1;31m is dead\033[0m");
-	// else
 	printf("%d %d %s\n", temps, philo->id, str);
 	pthread_mutex_unlock(&philo->info->print);
 }
