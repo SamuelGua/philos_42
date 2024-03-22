@@ -43,9 +43,7 @@ typedef struct s_list
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
 
-	pthread_mutex_t	synchro;
 	pthread_t		monitor;
-	int				ready;
 
 	int				num_of_philo;
 	t_philo			*philos;
@@ -81,16 +79,11 @@ void	init_destroy_mutex(t_data *data);
 void	init_philo(char **av, t_philo **list, t_data *data);
 double	get_time(void);
 
-/*==============*/
-void	wait_all_threads(t_data *table);
-int		get_bool(t_data *data);
-/*==============*/
-
 // philo manager
 void	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-void	ft_died(t_philo *philo, int time_to);
-void	ft_message(t_philo *philo, char *str, int time_to);
+void	ft_message(t_philo *philo, char *str);
 void	ft_usleep(int time_to);
+int		check_end(t_philo *philo);
 
 #endif
