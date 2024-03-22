@@ -75,9 +75,8 @@ void	thread(t_data *data)
 
 	data->begin = get_time();
 	i = 0;
-	t_philo *tmp = data->philos;
-	pthread_create(&tmp->info->monitor, NULL, &manage, data->philos);
-	pthread_detach(tmp->info->monitor);
+	pthread_create(&data->monitor, NULL, &manage, data->philos);
+	pthread_detach(data->monitor);
 	while (i++ < data->num_of_philo)
 	{
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
