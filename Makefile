@@ -27,13 +27,13 @@ DIR_DUP			= mkdir -p $(@D)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		@$(CC) $(OBJS) -o $(NAME) 
+		$(CC) $(OBJS) -o $(NAME) 
 		@echo "$(COLOR_GREEN)$(COLOR_BOLD)Compilation fini 👍 $(COLOR_RESET)"
 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/philo.h
-		@$(DIR_DUP)
-		@$(CC) $(CFLAGS) $(CCFLAGS) -c -o $@ $<
+		$(DIR_DUP)
+		$(CC) $(CFLAGS) $(CCFLAGS) -c -o $@ $<
 
 clean:
 	@$(RM) $(OBJS)
