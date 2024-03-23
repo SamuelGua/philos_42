@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/21 16:54:01 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/23 09:59:59 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_message(t_philo *philo, char *str)
 	if (philo->info->died == 1)
 	{
 		pthread_mutex_unlock(&philo->info->print);
-		return;
+		return ;
 	}
 	temps = get_time() - philo->info->begin;
 	printf("%d %d %s\n", temps, philo->id, str);
@@ -29,7 +29,7 @@ void	ft_message(t_philo *philo, char *str)
 
 void	take_forks(t_philo *philo)
 {
-	if(philo->info->died == 1)
+	if (philo->info->died == 1)
 		return ;
 	if (philo->id % 2 == 0)
 	{
@@ -77,8 +77,8 @@ void	ft_sleep(t_philo *philo)
 
 void	ft_usleep(int time_to, t_philo *philo)
 {
-	int pourcent;
-	
+	int	pourcent;
+
 	pourcent = time_to * 0.1;
 	while (time_to > 0 && philo->info->died == 0)
 	{
@@ -86,4 +86,3 @@ void	ft_usleep(int time_to, t_philo *philo)
 		time_to -= pourcent;
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/21 17:07:00 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/23 09:58:27 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,23 @@ int	check_end(t_philo *philo)
 	return (0);
 }
 
-
 void	*manage(void *tmp)
 {
-	t_philo *philo = (t_philo * )tmp;
-	
+	t_philo	*philo;
+
+	philo = (t_philo *)tmp;
 	while (1)
 	{
-		if ((get_time() - philo->last_meals) - 5 > philo->info->time_to_death / 1000)
+		if ((get_time() - philo->last_meals)
+			- 5 > philo->info->time_to_death / 1000)
 		{
 			pthread_mutex_lock(&philo->info->print);
 			philo->stats = 1;
 			philo->info->died = 1;
-			printf("%d %d \033[0;31mdied\033[0m\n",(int)(get_time() - philo->info->begin), philo->id);
+			printf("%d %d \033[0;31mdied\033[0m\n",
+				(int)(get_time() - philo->info->begin), philo->id);
 			pthread_mutex_unlock(&philo->info->print);
-			return(NULL);
+			return (NULL);
 		}
 		if (philo->info->all_eataen == philo->info->num_of_philo)
 		{
@@ -112,7 +114,6 @@ int	main(int ac, char **av)
 	}
 	init_data(av, &data);
 	thread(&data);
-	//printlist(data.philos, data.num_of_philo);
 	ft_free(data.philos, data.num_of_philo);
 	return (0);
 }
