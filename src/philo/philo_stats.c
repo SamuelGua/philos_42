@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/23 09:59:59 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/23 10:14:38 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	take_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "\033[1;35mhas taken fork \033[0m");
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "\033[1;35mhas taken fork - 1 \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork\033[0m");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->prev->fork_id);
-		ft_message(philo, "\033[1;35mhas taken fork - 1 \033[0m");
+		ft_message(philo, "\033[1;35mhas taken fork\033[0m");
 		pthread_mutex_lock(&philo->fork_id);
 		ft_message(philo, "\033[1;35mhas taken fork \033[0m");
 	}
