@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/23 10:14:38 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:50:03 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_eat(t_philo *philo)
 		philo->n_meals++;
 		pthread_mutex_lock(&philo->info->meal);
 		if (philo->n_meals == philo->info->num_of_eat)
-		philo->info->all_eataen++;
+			philo->info->all_eataen++;
 		pthread_mutex_unlock(&philo->info->meal);
 	}
 	pthread_mutex_unlock(&philo->fork_id);

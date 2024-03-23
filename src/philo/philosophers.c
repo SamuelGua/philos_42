@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/23 09:58:27 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:41:21 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ void	*manage(void *tmp)
 	while (1)
 	{
 		if ((get_time() - philo->last_meals)
-			- 5 > philo->info->time_to_death / 1000)
+			- 7 > philo->info->time_to_death / 1000)
 		{
 			pthread_mutex_lock(&philo->info->print);
 			philo->stats = 1;
 			philo->info->died = 1;
+			printf("[%d] last meals %f\n", philo->id, (get_time() - philo->last_meals));
 			printf("%d %d \033[0;31mdied\033[0m\n",
 				(int)(get_time() - philo->info->begin), philo->id);
 			pthread_mutex_unlock(&philo->info->print);
@@ -45,10 +46,12 @@ void	*manage(void *tmp)
 		}
 		if (philo->info->all_eataen == philo->info->num_of_philo)
 		{
+			printf("[%d] last meals %d\n", philo->id, philo->info->all_eataen);
 			philo->info->died = 1;
 			return (NULL);
 		}
 		philo = philo->next;
+		usleep(500);
 	}
 }
 
