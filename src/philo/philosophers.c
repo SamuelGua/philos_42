@@ -14,15 +14,37 @@
 
 int	check_end(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->print);
-	if (philo->info->died == 1)
-		return (pthread_mutex_unlock(&philo->info->print), 1);
-	pthread_mutex_unlock(&philo->info->print);
+	if (mutex_meal(philo) || mutex_died(philo))
+		return (1);
+	return (0);
+}
+
+int	check_death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->last_meals_mutex);
+	if((get_time() - philo->last_meals)
+			- 7 > philo->info->time_to_death / 1000)
+		return (pthread_mutex_unlock(&philo->last_meals_mutex), 1);
+	return (pthread_mutex_unlock(&philo->last_meals_mutex), 0);
+
+}
+
+int mutex_meal(t_philo *philo)
+{
 	pthread_mutex_lock(&philo->info->meal);
 	if (philo->info->all_eataen == philo->info->num_of_philo)
 		return (pthread_mutex_unlock(&philo->info->meal), 1);
-	pthread_mutex_unlock(&philo->info->meal);
-	return (0);
+	return (pthread_mutex_unlock(&philo->info->meal), 0);
+	
+}
+
+int	mutex_died(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->died_mutex);
+	if (philo->info->died == 1)
+		return (pthread_mutex_unlock(&philo->info->died_mutex), 1);
+	return (pthread_mutex_unlock(&philo->info->died_mutex), 0);
+
 }
 
 void	*manage(void *tmp)
@@ -32,22 +54,23 @@ void	*manage(void *tmp)
 	philo = (t_philo *)tmp;
 	while (1)
 	{
-		if ((get_time() - philo->last_meals)
-			- 7 > philo->info->time_to_death / 1000)
+		if (check_death(philo))
 		{
-			pthread_mutex_lock(&philo->info->print);
-			philo->stats = 1;
+			pthread_mutex_lock(&philo->info->died_mutex);
 			philo->info->died = 1;
+			pthread_mutex_unlock(&philo->info->died_mutex);
+			pthread_mutex_lock(&philo->info->print);
 			printf("[%d] last meals %f\n", philo->id, (get_time() - philo->last_meals));
 			printf("%d %d \033[0;31mdied\033[0m\n",
 				(int)(get_time() - philo->info->begin), philo->id);
 			pthread_mutex_unlock(&philo->info->print);
 			return (NULL);
 		}
-		if (philo->info->all_eataen == philo->info->num_of_philo)
+		if (mutex_meal(philo))
 		{
-			printf("[%d] last meals %d\n", philo->id, philo->info->all_eataen);
+			pthread_mutex_lock(&philo->info->died_mutex);
 			philo->info->died = 1;
+			pthread_mutex_unlock(&philo->info->died_mutex);
 			return (NULL);
 		}
 		philo = philo->next;

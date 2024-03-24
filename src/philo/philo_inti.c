@@ -27,7 +27,6 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 		if (!tmp)
 			return ;
 		tmp->info = data;
-		tmp->stats = 0;
 		ft_lstadd_back(list, tmp);
 	}
 	tmp->next = *list;
@@ -44,11 +43,13 @@ void	init_mutex(t_data *data)
 	while (i++ < data->num_of_philo)
 	{
 		pthread_mutex_init(&data->philos->fork_id, NULL);
+		pthread_mutex_init(&data->philos->last_meals_mutex, NULL);
 		data->philos = data->philos->next;
 	}
 	data->philos = tmp;
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->meal, NULL);
+	pthread_mutex_init(&data->died_mutex, NULL);
 }
 
 void	init_destroy_mutex(t_data *data)

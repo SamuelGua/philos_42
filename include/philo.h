@@ -28,6 +28,7 @@ typedef struct philosophers
 
 	pthread_t				thread;
 	pthread_mutex_t			fork_id;
+	pthread_mutex_t			last_meals_mutex;
 
 	int						n_meals;
 	double					last_meals;
@@ -42,6 +43,7 @@ typedef struct s_list
 {
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
+	pthread_mutex_t	died_mutex;
 
 	pthread_t		monitor;
 
@@ -84,6 +86,9 @@ void	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	ft_message(t_philo *philo, char *str);
 void	ft_usleep(int time_to, t_philo *philo);
+
 int		check_end(t_philo *philo);
+int		mutex_meal(t_philo *philo);
+int		mutex_died(t_philo *philo);
 
 #endif
