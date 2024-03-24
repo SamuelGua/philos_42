@@ -36,37 +36,33 @@ void	init_philo(char **av, t_philo **list, t_data *data)
 void	init_mutex(t_data *data)
 {
 	int		i;
-	t_philo	*tmp;
 
 	i = 0;
-	tmp = data->philos;
 	while (i++ < data->num_of_philo)
 	{
 		pthread_mutex_init(&data->philos->fork_id, NULL);
 		pthread_mutex_init(&data->philos->last_meals_mutex, NULL);
 		data->philos = data->philos->next;
 	}
-	data->philos = tmp;
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 	pthread_mutex_init(&data->died_mutex, NULL);
 }
 
-void	init_destroy_mutex(t_data *data)
+void	destroy_mutex(t_data *data)
 {
 	int		i;
-	t_philo	*tmp;
 
 	i = 0;
-	tmp = data->philos;
 	while (i++ < data->num_of_philo)
 	{
 		pthread_mutex_destroy(&data->philos->fork_id);
+		pthread_mutex_destroy(&data->philos->last_meals_mutex);
 		data->philos = data->philos->next;
 	}
-	data->philos = tmp;
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->meal);
+	pthread_mutex_destroy(&data->died_mutex);
 }
 
 void	init_data(char **av, t_data *data)

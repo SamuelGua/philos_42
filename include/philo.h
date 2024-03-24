@@ -77,7 +77,7 @@ int		check_args(char *av, int j);
 // inti data
 void	init_data(char **av, t_data *data);
 void	init_mutex(t_data *data);
-void	init_destroy_mutex(t_data *data);
+void	destroy_mutex(t_data *data);
 void	init_philo(char **av, t_philo **list, t_data *data);
 double	get_time(void);
 
@@ -90,5 +90,6 @@ void	ft_usleep(int time_to, t_philo *philo);
 int		check_end(t_philo *philo);
 int		mutex_meal(t_philo *philo);
 int		mutex_died(t_philo *philo);
+int		check_death(t_philo *philo);
 
 #endif
