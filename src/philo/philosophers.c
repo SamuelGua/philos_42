@@ -30,8 +30,9 @@ void	*manage(void *tmp)
 			philo->info->died = 1;
 			pthread_mutex_unlock(&philo->info->died_mutex);
 			pthread_mutex_lock(&philo->info->print);
+			printf("last meals == %f\n", get_time() - philo->last_meals);
 			printf("%d %d \033[0;31mdied\033[0m\n",
-				(int)(get_time() - philo->info->begin) - 5, philo->id);
+				(int)(get_time() - philo->info->begin), philo->id);
 			pthread_mutex_unlock(&philo->info->print);
 			return (NULL);
 		}

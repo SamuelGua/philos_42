@@ -12,7 +12,7 @@ int	check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->last_meals_mutex);
 	if((get_time() - philo->last_meals)
-			- 7 > philo->info->time_to_death / 1000)
+		 > philo->info->time_to_death / 1000)
 		return (pthread_mutex_unlock(&philo->last_meals_mutex), 1);
 	return (pthread_mutex_unlock(&philo->last_meals_mutex), 0);
 
@@ -38,7 +38,9 @@ int	mutex_died(t_philo *philo)
 
 double	mutex_begin(t_philo *philo)
 {
+	double tmp;
 	pthread_mutex_lock(&philo->info->mutex_begin);
-	return (pthread_mutex_unlock(&philo->info->mutex_begin),
-			philo->info->begin);
+	tmp = philo->info->begin;
+	pthread_mutex_unlock(&philo->info->mutex_begin);
+	return (tmp);
 }
