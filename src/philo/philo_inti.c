@@ -47,6 +47,8 @@ void	init_mutex(t_data *data)
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 	pthread_mutex_init(&data->died_mutex, NULL);
+	pthread_mutex_init(&data->ready, NULL);
+	pthread_mutex_init(&data->mutex_begin, NULL);
 }
 
 void	destroy_mutex(t_data *data)
@@ -63,6 +65,10 @@ void	destroy_mutex(t_data *data)
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->meal);
 	pthread_mutex_destroy(&data->died_mutex);
+	pthread_mutex_destroy(&data->ready);
+	pthread_mutex_destroy(&data->mutex_begin);
+
+
 }
 
 void	init_data(char **av, t_data *data)

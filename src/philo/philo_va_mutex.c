@@ -35,3 +35,10 @@ int	mutex_died(t_philo *philo)
 	return (pthread_mutex_unlock(&philo->info->died_mutex), 0);
 
 }
+
+double	mutex_begin(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->mutex_begin);
+	return (pthread_mutex_unlock(&philo->info->mutex_begin),
+			philo->info->begin);
+}

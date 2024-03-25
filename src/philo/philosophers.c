@@ -17,6 +17,11 @@ void	*manage(void *tmp)
 	t_philo	*philo;
 
 	philo = (t_philo *)tmp;
+	wait_all_threads(philo);
+	pthread_mutex_lock(&philo->info->mutex_begin);
+	philo->info->begin = get_time();
+	pthread_mutex_unlock(&philo->info->mutex_begin);
+
 	while (1)
 	{
 		if (check_death(philo))
@@ -41,13 +46,30 @@ void	*manage(void *tmp)
 	}
 }
 
+int	get_bool(t_philo *philo)
+{
+	int	ret;
+
+	pthread_mutex_lock(&philo->info->ready);
+	ret = philo->info->go;
+	pthread_mutex_unlock(&philo->info->ready);
+	return (ret);
+}
+
+void	wait_all_threads(t_philo *philo)
+{
+	while (!get_bool(philo))
+		usleep(500);
+}
+
+
 void	*dinner(void *philo)
 {
 	t_philo	*tmp;
-
 	tmp = (t_philo *) philo;
 	if (tmp->info->num_of_philo == 1)
 	{
+		tmp->info->begin = get_time();
 		printf("%d %d %s\n", (int)(get_time()
 				- tmp->info->begin), tmp->id, "has taken a fork");
 		ft_usleep(tmp->info->time_to_death, tmp);
@@ -55,7 +77,9 @@ void	*dinner(void *philo)
 				- tmp->info->begin), tmp->id, "died");
 		return (NULL);
 	}
-	ft_message(philo, "\033[0;33mis thinking \033[0m");
+	wait_all_threads(tmp);
+	usleep(500);
+	ft_message(philo, "\033[0;33mis thinking\033[0m");
 	while (!check_end(tmp))
 	{
 		ft_eat(tmp);
@@ -68,7 +92,7 @@ void	thread(t_data *data)
 {
 	int				i;
 
-	data->begin = get_time();
+	//data->begin = get_time();
 	i = 0;
 	if (data->num_of_philo != 1)
 	{
@@ -79,6 +103,12 @@ void	thread(t_data *data)
 	{
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
 		data->philos = data->philos->next;
+
+		pthread_mutex_lock(&data->ready);
+		if (i == data->num_of_philo)
+			data->go = 1;
+		pthread_mutex_unlock(&data->ready);
+
 	}
 	while (--i > 0)
 	{

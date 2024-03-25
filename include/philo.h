@@ -44,6 +44,10 @@ typedef struct s_list
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	died_mutex;
+	pthread_mutex_t	ready;
+	pthread_mutex_t	mutex_begin;
+	
+	int	go;
 
 	pthread_t		monitor;
 
@@ -91,5 +95,7 @@ int		check_end(t_philo *philo);
 int		mutex_meal(t_philo *philo);
 int		mutex_died(t_philo *philo);
 int		check_death(t_philo *philo);
+void	wait_all_threads(t_philo *philo);
+double	mutex_begin(t_philo *philo);
 
 #endif
