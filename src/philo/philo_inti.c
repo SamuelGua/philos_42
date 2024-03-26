@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 10:35:07 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 10:22:04 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 11:30:50 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void	destroy_mutex(t_data *data)
 	pthread_mutex_destroy(&data->died_mutex);
 	pthread_mutex_destroy(&data->ready);
 	pthread_mutex_destroy(&data->mutex_begin);
-
-
 }
 
 void	init_data(char **av, t_data *data)

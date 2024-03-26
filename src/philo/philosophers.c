@@ -6,11 +6,23 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 10:29:01 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 16:16:35 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->died_mutex);
+	philo->info->died = 1;
+	pthread_mutex_unlock(&philo->info->died_mutex);
+	pthread_mutex_lock(&philo->info->print);
+	printf("last meals == %f\n", get_time() - philo->last_meals);
+	printf("%d %d \033[0;31mdied\033[0m\n",
+		(int)(get_time() - philo->info->begin) - 5, philo->id);
+	pthread_mutex_unlock(&philo->info->print);
+}
 
 void	*manage(void *tmp)
 {
@@ -21,19 +33,11 @@ void	*manage(void *tmp)
 	pthread_mutex_lock(&philo->info->mutex_begin);
 	philo->info->begin = get_time();
 	pthread_mutex_unlock(&philo->info->mutex_begin);
-
 	while (1)
 	{
 		if (check_death(philo))
 		{
-			pthread_mutex_lock(&philo->info->died_mutex);
-			philo->info->died = 1;
-			pthread_mutex_unlock(&philo->info->died_mutex);
-			pthread_mutex_lock(&philo->info->print);
-			printf("last meals == %f\n", get_time() - philo->last_meals);
-			printf("%d %d \033[0;31mdied\033[0m\n",
-				(int)(get_time() - philo->info->begin), philo->id);
-			pthread_mutex_unlock(&philo->info->print);
+			print(philo);
 			return (NULL);
 		}
 		if (mutex_meal(philo))
@@ -63,10 +67,10 @@ void	wait_all_threads(t_philo *philo)
 		usleep(500);
 }
 
-
 void	*dinner(void *philo)
 {
 	t_philo	*tmp;
+
 	tmp = (t_philo *) philo;
 	if (tmp->info->num_of_philo == 1)
 	{
@@ -79,7 +83,7 @@ void	*dinner(void *philo)
 		return (NULL);
 	}
 	wait_all_threads(tmp);
-	//usleep(500);
+	usleep(500);
 	if (tmp->id % 2 != 0)
 		usleep(2000);
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
@@ -97,8 +101,6 @@ void	thread(t_data *data)
 
 	data->begin = get_time();
 	i = 0;
-	// printf("%d\n", data->time_to_death + 5000);
-	// exit(1);
 	if (data->num_of_philo != 1)
 	{
 		pthread_create(&data->monitor, NULL, &manage, data->philos);
@@ -108,12 +110,10 @@ void	thread(t_data *data)
 	{
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
 		data->philos = data->philos->next;
-
 		pthread_mutex_lock(&data->ready);
 		if (i == data->num_of_philo)
 			data->go = 1;
 		pthread_mutex_unlock(&data->ready);
-
 	}
 	while (--i > 0)
 	{
@@ -138,7 +138,6 @@ int	main(int ac, char **av)
 	}
 	init_data(av, &data);
 	thread(&data);
-	//destroy_mutex(&data);
 	ft_free(data.philos, data.num_of_philo);
 	return (0);
 }

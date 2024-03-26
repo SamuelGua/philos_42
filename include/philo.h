@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/21 12:38:30 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 11:31:43 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_list
 	pthread_mutex_t	died_mutex;
 	pthread_mutex_t	ready;
 	pthread_mutex_t	mutex_begin;
-	
-	int	go;
+
+	int				go;
 
 	pthread_t		monitor;
 

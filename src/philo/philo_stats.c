@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/23 17:53:30 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 11:31:01 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	take_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->last_meals_mutex);
 	philo->last_meals = get_time();
 	pthread_mutex_unlock(&philo->last_meals_mutex);
-
 }
 
 void	ft_eat(t_philo *philo)
