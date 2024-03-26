@@ -28,12 +28,12 @@ DIR_DUP			= mkdir -p $(@D)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(OBJS) -o $(NAME) 
+		@$(CC) $(OBJS) -o $(NAME) 
 		@echo "$(COLOR_GREEN)$(COLOR_BOLD)Compilation fini 👍 $(COLOR_RESET)"
 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/philo.h
-		$(DIR_DUP)
+		@$(DIR_DUP)
 		$(CC) $(CFLAGS) $(CCFLAGS) -c -o $@ $<
 
 clean:
@@ -41,6 +41,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(OBJ_DIR) $(NAME)
+	@echo "$(COLOR_RED)$(COLOR_BOLD)files deleted$(COLOR_RESET)"
 
 
 re:
