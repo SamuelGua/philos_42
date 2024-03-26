@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 11:31:43 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 16:23:56 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ int		mutex_died(t_philo *philo);
 int		check_death(t_philo *philo);
 void	wait_all_threads(t_philo *philo);
 double	mutex_begin(t_philo *philo);
+int		get_bool(t_philo *philo);
+void	wait_all_threads(t_philo *philo);
 
 #endif

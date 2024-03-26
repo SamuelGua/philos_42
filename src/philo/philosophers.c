@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 16:16:35 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 16:23:22 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,6 @@ void	*manage(void *tmp)
 		}
 		(usleep(500), philo = philo->next);
 	}
-}
-
-int	get_bool(t_philo *philo)
-{
-	int	ret;
-
-	pthread_mutex_lock(&philo->info->ready);
-	ret = philo->info->go;
-	pthread_mutex_unlock(&philo->info->ready);
-	return (ret);
-}
-
-void	wait_all_threads(t_philo *philo)
-{
-	while (get_bool(philo) == 0)
-		usleep(500);
 }
 
 void	*dinner(void *philo)

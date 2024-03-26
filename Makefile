@@ -14,7 +14,7 @@ SRCS			= $(PHILOSOPHERS_PATH)
 
 PHILOSOPHERS_PATH	= $(PHILOSOPHERS:%=src/philo/%)
 PHILOSOPHERS		= parsing_utils.c philo_inti.c philo_list_utils.c philosophers.c philo_stats.c\
-						philo_va_mutex.c\
+						philo_va_mutex.c philo_wait.c\
 				
 OBJS			:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
