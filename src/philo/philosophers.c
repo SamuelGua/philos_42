@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/23 16:41:21 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 10:29:01 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_bool(t_philo *philo)
 
 void	wait_all_threads(t_philo *philo)
 {
-	while (!get_bool(philo))
+	while (get_bool(philo) == 0)
 		usleep(500);
 }
 
@@ -79,7 +79,9 @@ void	*dinner(void *philo)
 		return (NULL);
 	}
 	wait_all_threads(tmp);
-	usleep(500);
+	//usleep(500);
+	if (tmp->id % 2 != 0)
+		usleep(2000);
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
 	while (!check_end(tmp))
 	{
@@ -93,8 +95,10 @@ void	thread(t_data *data)
 {
 	int				i;
 
-	//data->begin = get_time();
+	data->begin = get_time();
 	i = 0;
+	// printf("%d\n", data->time_to_death + 5000);
+	// exit(1);
 	if (data->num_of_philo != 1)
 	{
 		pthread_create(&data->monitor, NULL, &manage, data->philos);

@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 10:35:07 by scely             #+#    #+#             */
-/*   Updated: 2024/03/21 13:54:39 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/26 10:22:04 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	init_data(char **av, t_data *data)
 	data->time_to_death = ft_atoi(av[2]) * 1000;
 	data->time_to_eat = ft_atoi(av[3]) * 1000;
 	data->time_to_sleep = ft_atoi(av[4]) * 1000;
+	data->go = 0;
 	data->died = 0;
 	data->all_eataen = 0;
 	if (av[5] == NULL || ft_atoi(av[5]) == 0)
