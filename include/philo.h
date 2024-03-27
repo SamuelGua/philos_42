@@ -60,6 +60,7 @@ typedef struct s_list
 	int				time_to_death;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				time_to_think;
 	int				num_of_eat;	
 
 	double			begin;

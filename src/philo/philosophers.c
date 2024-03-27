@@ -19,7 +19,7 @@ void	print(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->died_mutex);
 	pthread_mutex_lock(&philo->info->print);
 	printf("%d %d \033[0;31mdied\033[0m\n",
-		(int)(get_time() - philo->info->begin) - 5, philo->id);
+		(int)(get_time() - philo->info->begin), philo->id);
 	pthread_mutex_unlock(&philo->info->print);
 }
 
@@ -85,10 +85,7 @@ void	thread(t_data *data)
 	data->begin = get_time();
 	i = 0;
 	if (data->num_of_philo != 1)
-	{
 		pthread_create(&data->monitor, NULL, &manage, data->philos);
-		pthread_detach(data->monitor);
-	}
 	while (i++ < data->num_of_philo)
 	{
 		pthread_create(&data->philos->thread, NULL, &dinner, data->philos);
@@ -103,6 +100,8 @@ void	thread(t_data *data)
 		pthread_join(data->philos->thread, NULL);
 		data->philos = data->philos->next;
 	}
+	pthread_join(data->monitor, NULL);
+
 }
 
 int	main(int ac, char **av)

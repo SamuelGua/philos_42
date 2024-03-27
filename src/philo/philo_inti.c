@@ -77,6 +77,12 @@ void	init_data(char **av, t_data *data)
 	data->time_to_eat = ft_atoi(av[3]) * 1000;
 	data->time_to_sleep = ft_atoi(av[4]) * 1000;
 	data->go = 0;
+	if (data->time_to_eat > data->time_to_sleep)
+		data->time_to_think = data->time_to_eat- data->time_to_sleep + 1000;
+	else
+		data->time_to_think = 1000;
+	// printf("data = %d",data->time_to_think / 1000);
+	// exit(1);
 	data->died = 0;
 	data->all_eataen = 0;
 	if (av[5] == NULL || ft_atoi(av[5]) == 0)

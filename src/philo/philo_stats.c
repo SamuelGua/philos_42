@@ -73,6 +73,7 @@ void	ft_sleep(t_philo *philo)
 		ft_usleep(philo->info->time_to_sleep, philo);
 	}
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
+	ft_usleep(philo->info->time_to_think, philo);
 }
 
 void	ft_usleep(int time_to, t_philo *philo)
