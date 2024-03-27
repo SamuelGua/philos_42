@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/27 08:53:35 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/27 12:22:35 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	*dinner(void *philo)
 	wait_all_threads(tmp);
 	usleep(500);
 	if (tmp->id % 2 != 0)
-		usleep(2000);
+		usleep(tmp->info->time_to_eat);
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
 	while (!check_end(tmp))
 	{
