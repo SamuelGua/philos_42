@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 16:23:22 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/27 08:53:35 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	print(t_philo *philo)
 	philo->info->died = 1;
 	pthread_mutex_unlock(&philo->info->died_mutex);
 	pthread_mutex_lock(&philo->info->print);
-	printf("last meals == %f\n", get_time() - philo->last_meals);
 	printf("%d %d \033[0;31mdied\033[0m\n",
 		(int)(get_time() - philo->info->begin) - 5, philo->id);
 	pthread_mutex_unlock(&philo->info->print);
