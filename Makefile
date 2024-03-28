@@ -19,7 +19,6 @@ PHILOSOPHERS		= parsing_utils.c philo_inti.c philo_list_utils.c philosophers.c p
 OBJS			:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CFLAGS			:= -Wall -Wextra -Werror
-CFLAGS			+= -g3
 CCFLAGS			:= -I include
 
 RM				:= rm -rf

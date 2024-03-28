@@ -6,37 +6,37 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:45:17 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 16:23:56 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/28 10:34:00 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <string.h>	// memset
-# include <stdio.h>	  	// printf
-# include <stdlib.h>	// malloc, free
-# include <unistd.h>	// write, usleep, gettimeofday
-# include <sys/time.h>	// gettimeofday en fonction des systèmes
-# include <pthread.h> 	// les fonctions liées aux threads
+# include <string.h>	  // memset
+# include <stdio.h>	  // printf
+# include <stdlib.h>	  // malloc, free
+# include <unistd.h>	  // write, usleep, gettimeofday
+# include <sys/time.h> // gettimeofday en fonction des systèmes
+# include <pthread.h>  // les fonctions liées aux threads
 
 struct	s_list;
 
 typedef struct philosophers
 {
-	int						id;
+	int					id;
 
-	pthread_t				thread;
-	pthread_mutex_t			fork_id;
-	pthread_mutex_t			last_meals_mutex;
+	pthread_t			thread;
+	pthread_mutex_t		fork_id;
+	pthread_mutex_t		last_meals_mutex;
 
-	int						n_meals;
-	double					last_meals;
+	int					n_meals;
+	double				last_meals;
+	int					stats;
 
-	int						stats;
-	struct philosophers		*prev;
-	struct philosophers		*next;
-	struct s_list			*info;
+	struct philosophers	*prev;
+	struct philosophers	*next;
+	struct s_list		*info;
 }	t_philo;
 
 typedef struct s_list
@@ -61,7 +61,7 @@ typedef struct s_list
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				time_to_think;
-	int				num_of_eat;	
+	int				num_of_eat;
 
 	double			begin;
 }	t_data;

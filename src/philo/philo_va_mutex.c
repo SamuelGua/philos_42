@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 11:27:37 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 16:16:22 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/28 13:49:09 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_end(t_philo *philo)
 int	check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->last_meals_mutex);
-	if ((get_time() - philo->last_meals)
+	if ((get_time() - philo->last_meals) - 5
 		> philo->info->time_to_death / 1000)
 		return (pthread_mutex_unlock(&philo->last_meals_mutex), 1);
 	return (pthread_mutex_unlock(&philo->last_meals_mutex), 0);

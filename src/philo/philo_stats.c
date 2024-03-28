@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:05:23 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 11:31:01 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/28 13:47:48 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_eat(t_philo *philo)
 	if (!check_end(philo))
 	{
 		ft_message(philo, "\033[0;32mis eating\033[0m");
-		ft_usleep(philo->info->time_to_eat, philo);
+		usleep(philo->info->time_to_eat);
 		philo->n_meals++;
 		pthread_mutex_lock(&philo->info->meal);
 		if (philo->n_meals == philo->info->num_of_eat)
@@ -70,20 +70,8 @@ void	ft_sleep(t_philo *philo)
 	if (!check_end(philo))
 	{
 		ft_message(philo, "\033[0;34mis sleeping\033[0m");
-		ft_usleep(philo->info->time_to_sleep, philo);
+		usleep(philo->info->time_to_sleep);
 	}
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
-	ft_usleep(philo->info->time_to_think, philo);
-}
-
-void	ft_usleep(int time_to, t_philo *philo)
-{
-	int	pourcent;
-
-	pourcent = time_to * 0.1;
-	while (time_to > 0 && mutex_died(philo) == 0)
-	{
-		usleep(pourcent);
-		time_to -= pourcent;
-	}
+	usleep(philo->info->time_to_think);
 }

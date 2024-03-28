@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 10:35:07 by scely             #+#    #+#             */
-/*   Updated: 2024/03/26 11:30:50 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/28 12:24:53 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,9 @@ void	init_data(char **av, t_data *data)
 	data->time_to_sleep = ft_atoi(av[4]) * 1000;
 	data->go = 0;
 	if (data->time_to_eat > data->time_to_sleep)
-		data->time_to_think = data->time_to_eat- data->time_to_sleep + 1000;
+		data->time_to_think = (data->time_to_eat - data->time_to_sleep) + 1000;
 	else
 		data->time_to_think = 1000;
-	// printf("data = %d",data->time_to_think / 1000);
-	// exit(1);
 	data->died = 0;
 	data->all_eataen = 0;
 	if (av[5] == NULL || ft_atoi(av[5]) == 0)

@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/27 12:22:35 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/28 13:49:58 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->died_mutex);
 	pthread_mutex_lock(&philo->info->print);
 	printf("%d %d \033[0;31mdied\033[0m\n",
-		(int)(get_time() - philo->info->begin), philo->id);
+		((int)(get_time() - philo->info->begin)) - 5, philo->id);
 	pthread_mutex_unlock(&philo->info->print);
 }
 
@@ -60,7 +60,7 @@ void	*dinner(void *philo)
 		tmp->info->begin = get_time();
 		printf("%d %d %s\n", (int)(get_time()
 				- tmp->info->begin), tmp->id, "has taken a fork");
-		ft_usleep(tmp->info->time_to_death, tmp);
+		usleep(tmp->info->time_to_death);
 		printf("%d %d %s\n", (int)(get_time()
 				- tmp->info->begin), tmp->id, "died");
 		return (NULL);
@@ -101,7 +101,6 @@ void	thread(t_data *data)
 		data->philos = data->philos->next;
 	}
 	pthread_join(data->monitor, NULL);
-
 }
 
 int	main(int ac, char **av)
