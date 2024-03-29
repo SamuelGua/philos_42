@@ -6,7 +6,7 @@
 /*   By: scely <scely@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:44:47 by scely             #+#    #+#             */
-/*   Updated: 2024/03/28 13:49:58 by scely            ###   ########.fr       */
+/*   Updated: 2024/03/29 14:03:43 by scely            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	thread(t_data *data)
 		pthread_join(data->philos->thread, NULL);
 		data->philos = data->philos->next;
 	}
-	pthread_join(data->monitor, NULL);
+	if (data->num_of_philo != 1)
+		pthread_join(data->monitor, NULL);
 }
 
 int	main(int ac, char **av)
