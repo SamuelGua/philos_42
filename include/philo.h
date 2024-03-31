@@ -64,6 +64,7 @@ typedef struct s_list
 	int				num_of_eat;
 
 	double			begin;
+	double			end;
 }	t_data;
 
 // list utils

@@ -27,3 +27,15 @@ void	wait_all_threads(t_philo *philo)
 	while (get_bool(philo) == 0)
 		usleep(500);
 }
+
+void	ft_usleep(int time_to, t_philo *philo)
+{
+	int	pourcent;
+
+	pourcent = 0.1 * time_to;
+	while(time_to > 0 && check_death(philo) == 0)
+	{
+		usleep(pourcent);
+		time_to -= pourcent;
+	}
+}

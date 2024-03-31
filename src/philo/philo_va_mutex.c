@@ -22,7 +22,7 @@ int	check_end(t_philo *philo)
 int	check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->last_meals_mutex);
-	if ((get_time() - philo->last_meals) - 5
+	if ((get_time() - philo->last_meals)
 		> philo->info->time_to_death / 1000)
 		return (pthread_mutex_unlock(&philo->last_meals_mutex), 1);
 	return (pthread_mutex_unlock(&philo->last_meals_mutex), 0);

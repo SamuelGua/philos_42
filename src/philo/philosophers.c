@@ -14,12 +14,13 @@
 
 void	print(t_philo *philo)
 {
+	philo->info->end = get_time();
 	pthread_mutex_lock(&philo->info->died_mutex);
 	philo->info->died = 1;
 	pthread_mutex_unlock(&philo->info->died_mutex);
 	pthread_mutex_lock(&philo->info->print);
 	printf("%d %d \033[0;31mdied\033[0m\n",
-		((int)(get_time() - philo->info->begin)) - 5, philo->id);
+		((int)(philo->info->end - philo->info->begin)), philo->id);
 	pthread_mutex_unlock(&philo->info->print);
 }
 

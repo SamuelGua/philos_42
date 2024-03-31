@@ -54,7 +54,7 @@ void	ft_eat(t_philo *philo)
 	if (!check_end(philo))
 	{
 		ft_message(philo, "\033[0;32mis eating\033[0m");
-		usleep(philo->info->time_to_eat);
+		ft_usleep(philo->info->time_to_eat, philo);
 		philo->n_meals++;
 		pthread_mutex_lock(&philo->info->meal);
 		if (philo->n_meals == philo->info->num_of_eat)
@@ -70,8 +70,8 @@ void	ft_sleep(t_philo *philo)
 	if (!check_end(philo))
 	{
 		ft_message(philo, "\033[0;34mis sleeping\033[0m");
-		usleep(philo->info->time_to_sleep);
+		ft_usleep(philo->info->time_to_sleep, philo);
 	}
 	ft_message(philo, "\033[0;33mis thinking\033[0m");
-	usleep(philo->info->time_to_think);
+	ft_usleep(philo->info->time_to_think, philo);
 }
